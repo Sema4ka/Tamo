@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Entity : MonoBehaviour
 {
     private bool _isSelected = false;
     [SerializeField]
     protected int force = 50;
-    protected Rigidbody2D MyRigitbody;
-    protected Transform MyTransform;
+    [HideInInspector]public Rigidbody2D myRigitbody;
+    [HideInInspector]public Transform myTransform;
     
      protected virtual void Start() {
-        MyRigitbody =  GetComponent<Rigidbody2D>();
-        MyTransform = GetComponent<Transform>();
+        myRigitbody =  GetComponent<Rigidbody2D>();
+        myTransform = GetComponent<Transform>();
      }
     private void OnMouseDown()
     {
@@ -32,7 +33,7 @@ public class Entity : MonoBehaviour
             Vector2 v2 = new Vector2(
                 Input.GetAxis("Mouse X"),
                 Input.GetAxis("Mouse Y"));
-            MyRigitbody.AddForce(v2 * force);
+            myRigitbody.AddForce(v2 * force);
         }
     }
 }

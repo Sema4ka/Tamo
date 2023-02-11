@@ -1,42 +1,59 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class Pet : Entity
 {
-    [SerializeField] protected int jumpForce = 10;
+    [SerializeField] public int jumpForce = 10;
     
     [SerializeField] private int saturation;
     [SerializeField] private int maxSaturation = 100;
     [SerializeField] private float hungerTime = 300;
 
+    [HideInInspector]public List<Toy> toys;
+    public Toy activeToy;
+    
+    private float _actTime;
+    private float _minDistance=100f;
+
+
     protected override void Start()
     {
         base.Start();
         StartCoroutine(GetHungryCorutine());
+        StartCoroutine(ToyAwake());
     }
-    public void Catch(Transform target)
+
+    public void Update()
     {
-        MyRigitbody.AddForce((transform.position - target.position)*-jumpForce, ForceMode2D.Impulse);
+            foreach (var toy in toys)
+            {
+                if (Vector2.Distance(transform.position, toy.myTransform.position) < _minDistance && toy != activeToy)
+                {
+                    SetActive(toy);
+                }
+                _minDistance = Vector2.Distance(transform.position, activeToy.myTransform.position);
+            }
     }
 
     public void Eat()
     {
-        if(saturation + 5 < maxSaturation)
+        if(saturation + 5 <= maxSaturation)
         {
             saturation += 5;
-            MyTransform.localScale += new Vector3(0.05f, 0.05f, 0);
+            transform.localScale += new Vector3(0.05f, 0.05f, 0);
         }        
     }
     
     private void GetHungry()
     {
-        if(saturation - 5 > 0)
+        if(saturation - 5 >= 0)
         {
             saturation -= 5;
-            MyTransform.localScale -= new Vector3(0.05f, 0.05f, 0);
+            transform.localScale -= new Vector3(0.05f, 0.05f, 0);
         }        
     }
 
@@ -48,4 +65,22 @@ public class Pet : Entity
             GetHungry();
         }
     }
+
+    IEnumerator ToyAwake()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(_actTime);
+            activeToy?.m_Action();
+        }
+    }
+
+    private void SetActive(Toy toy)
+    {
+        activeToy = toy;
+        _actTime = toy.actInSeconds;
+        print(_actTime);
+    }
+
+
 }

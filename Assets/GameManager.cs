@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     private string _currentState = "";
     public GameObject toy;
-    private Camera camera;
+    private Camera _myCamera;
     public void SetState(string state)
     {
         if (_currentState == state)
@@ -15,14 +15,12 @@ public class GameManager : MonoBehaviour
             _currentState = "";
             return;
         }
-        
         _currentState = state;
-
     }
 
     void Start()
     {
-        camera = Camera.main;
+        _myCamera = Camera.main;
     }
 
     void Update()
@@ -31,7 +29,7 @@ public class GameManager : MonoBehaviour
         {
             if (_currentState == "Ball")
             {
-                Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 pos = _myCamera.ScreenToWorldPoint(Input.mousePosition);
                 pos.z = 0;
                 Instantiate(toy, pos, Quaternion.identity);
             }
