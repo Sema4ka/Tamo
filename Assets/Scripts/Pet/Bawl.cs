@@ -50,14 +50,13 @@ public class Bawl : MonoBehaviour
             eatingTime = defaultTime;
         }
 
-        if (eatingTime <= 0)
+        if (eatingTime <= 0 && !_pet.isFull())
         { 
-            Pet pet = obj.gameObject.GetComponent<Pet>();
             currentStage = currentStage > 0 ? currentStage - 1: 0;
             eatingTime = defaultTime;
             
             if(currentStage!=0)
-                pet.Eat();
+                _pet.Eat();
         }
     }
     

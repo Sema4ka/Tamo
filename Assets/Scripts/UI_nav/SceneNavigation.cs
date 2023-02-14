@@ -11,7 +11,7 @@ public class SceneNavigation : MonoBehaviour
             way += 1;
             if (SceneManager.sceneCountInBuildSettings == way)
             {
-                SceneManager.LoadScene(0);
+                ChangeScene(0);
                 return;
             }
         }
@@ -21,12 +21,16 @@ public class SceneNavigation : MonoBehaviour
             way -= 1;
             if (way < 0)
             {
-                SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings -1);
-                print(SceneManager.sceneCountInBuildSettings -1);
+                ChangeScene(SceneManager.sceneCountInBuildSettings -1);
                 return;
             }
         }
-        Debug.Log(way);
         SceneManager.LoadScene(way);
+    }
+
+    public void ChangeScene(int index)
+    {
+
+        SceneManager.LoadScene(index);
     }
 }

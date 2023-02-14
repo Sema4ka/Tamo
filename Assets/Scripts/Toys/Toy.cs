@@ -11,7 +11,7 @@ public class Toy : Entity
 
     private Pet _pet;
 
-    protected override void  Start()
+    protected override void Start()
     {
         base.Start();
         _pet = FindObjectOfType<Pet>();

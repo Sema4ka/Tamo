@@ -9,39 +9,55 @@ public class Pet : Entity
 {
     [SerializeField] public int jumpForce = 10;
     
-    [SerializeField] private int saturation;
-    [SerializeField] private int maxSaturation = 100;
+    [SerializeField] public int saturation;
+    [SerializeField] readonly int _maxSaturation = 100;
     [SerializeField] private float hungerTime = 300;
 
     [HideInInspector]public List<Toy> toys;
     public Toy activeToy;
-    
     private float _actTime;
     private float _minDistance=100f;
 
+    private Pet instance;
+
+    protected virtual void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     protected override void Start()
     {
         base.Start();
         StartCoroutine(GetHungryCorutine());
         StartCoroutine(ToyAwake());
+        DontDestroyOnLoad(this);
     }
 
     public void Update()
     {
-            foreach (var toy in toys)
-            {
-                if (Vector2.Distance(transform.position, toy.myTransform.position) < _minDistance && toy != activeToy)
-                {
-                    SetActive(toy);
-                }
-                _minDistance = Vector2.Distance(transform.position, activeToy.myTransform.position);
-            }
+        ChechToys();
     }
 
+    protected void ChechToys()
+    {
+        foreach (var toy in toys)
+        {
+            if (Vector2.Distance(transform.position, toy.myTransform.position) < _minDistance && toy != activeToy)
+            {
+                SetActive(toy);
+            }
+            _minDistance = Vector2.Distance(transform.position, activeToy.myTransform.position);
+        }
+    }
     public void Eat()
     {
-        if(saturation + 5 <= maxSaturation)
+        if(saturation + 5 <= _maxSaturation)
         {
             saturation += 5;
             transform.localScale += new Vector3(0.05f, 0.05f, 0);
@@ -75,12 +91,16 @@ public class Pet : Entity
         }
     }
 
-    private void SetActive(Toy toy)
+    protected void SetActive(Toy toy)
     {
         activeToy = toy;
         _actTime = toy.actInSeconds;
-        print(_actTime);
     }
 
+    public bool isFull()
+    {
+        return saturation == _maxSaturation;
+    }
+    
 
 }

@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-    private string _currentState = "";
     public GameObject toy;
+    
+    private string _currentState = "";
     private Camera _myCamera;
+    public Pet pet;
+
+    private GameManager instance;
     public void SetState(string state)
     {
         if (_currentState == state)
@@ -18,9 +21,17 @@ public class GameManager : MonoBehaviour
         _currentState = state;
     }
 
-    void Start()
+    private void Awake()
+    {
+        Pet pet1 = PetSaverSystem.PetLoad();
+        Instantiate(pet);
+    }
+
+    private void Start()
     {
         _myCamera = Camera.main;
+        Pet pet1 = PetSaverSystem.PetLoad();
+        Instantiate(pet);
     }
 
     void Update()
@@ -34,5 +45,10 @@ public class GameManager : MonoBehaviour
                 Instantiate(toy, pos, Quaternion.identity);
             }
         }
+    }
+
+    private void OnApplicationQuit()
+    {
+        PetSaverSystem.SavePet(pet);
     }
 }

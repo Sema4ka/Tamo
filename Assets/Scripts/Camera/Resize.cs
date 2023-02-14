@@ -15,9 +15,6 @@ public class Resize : MonoBehaviour
         transform.localScale = new Vector3(
             worldScreenWidth / sr.size.x,
             worldScreenHeight / sr.size.y, 1);
-        
-        print(worldScreenWidth);
-        print(worldScreenHeight);
     }
     
     
