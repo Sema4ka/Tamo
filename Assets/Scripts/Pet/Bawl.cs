@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Serialization;
 
 public class Bawl : MonoBehaviour
 {
@@ -13,18 +8,21 @@ public class Bawl : MonoBehaviour
     [SerializeField] private float eatingTime;
     [SerializeField, Range(0, 7)] private int currentStage;
     [SerializeField] private float defaultTime = 2;
-
     
+    private GameManager gm;
     private Pet _pet;
+    private GameObject _petObj;
     private Rigidbody2D _petRb;
     private Transform _petTransform;
     private SpriteRenderer _spriteRenderer;
 
     protected virtual void Start()
     {
-        _pet = FindObjectOfType<Pet>();
-        _petRb = _pet.GetComponent<Rigidbody2D>();
-        _petTransform = _pet.GetComponent<Transform>();
+        gm = FindObjectOfType<GameManager>();
+        _petObj = gm.pet;
+        _pet = _petObj.GetComponent<Pet>();
+        _petRb = _petObj.GetComponent<Rigidbody2D>();
+        _petTransform = _petObj.GetComponent<Transform>();
         defaultTime = eatingTime;
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -50,7 +48,7 @@ public class Bawl : MonoBehaviour
             eatingTime = defaultTime;
         }
 
-        if (eatingTime <= 0 && !_pet.isFull())
+        if (eatingTime <= 0 && !_pet.isFull)
         { 
             currentStage = currentStage > 0 ? currentStage - 1: 0;
             eatingTime = defaultTime;

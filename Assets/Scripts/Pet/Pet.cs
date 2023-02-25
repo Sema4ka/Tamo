@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 public class Pet : Entity
@@ -17,19 +15,8 @@ public class Pet : Entity
     public Toy activeToy;
     private float _actTime;
     private float _minDistance=100f;
+    public bool isFull { get { return saturation == _maxSaturation; } }
 
-    private Pet instance;
-
-    protected virtual void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-    }
 
     protected override void Start()
     {
@@ -39,22 +26,47 @@ public class Pet : Entity
         DontDestroyOnLoad(this);
     }
 
-    public void Update()
+    protected void Update()
     {
-        ChechToys();
+        CatchToy();
     }
 
-    protected void ChechToys()
+
+    
+    #region ToyLogic
+    
+    protected void CatchToy()
     {
         foreach (var toy in toys)
         {
             if (Vector2.Distance(transform.position, toy.myTransform.position) < _minDistance && toy != activeToy)
             {
-                SetActive(toy);
+                SetActiveToy(toy);
             }
             _minDistance = Vector2.Distance(transform.position, activeToy.myTransform.position);
         }
     }
+
+    
+    protected void SetActiveToy(Toy toy)
+    {
+        activeToy = toy;
+        _actTime = toy.actInSeconds;
+    }
+    
+    
+    protected IEnumerator ToyAwake()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(_actTime);
+            activeToy?.m_Action();
+        }
+    }
+    #endregion
+
+    #region HungerLogic
+
     public void Eat()
     {
         if(saturation + 5 <= _maxSaturation)
@@ -64,7 +76,7 @@ public class Pet : Entity
         }        
     }
     
-    private void GetHungry()
+    protected void GetHungry()
     {
         if(saturation - 5 >= 0)
         {
@@ -73,7 +85,7 @@ public class Pet : Entity
         }        
     }
 
-    IEnumerator GetHungryCorutine()
+    protected IEnumerator GetHungryCorutine()
     {
         while (true)
         {
@@ -82,25 +94,6 @@ public class Pet : Entity
         }
     }
 
-    IEnumerator ToyAwake()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(_actTime);
-            activeToy?.m_Action();
-        }
-    }
-
-    protected void SetActive(Toy toy)
-    {
-        activeToy = toy;
-        _actTime = toy.actInSeconds;
-    }
-
-    public bool isFull()
-    {
-        return saturation == _maxSaturation;
-    }
-    
+    #endregion
 
 }

@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Entity : MonoBehaviour
 {
     private bool _isSelected = false;
-    [SerializeField]
-    protected int force = 50;
+    [SerializeField] protected int dragForce = 50;
     [HideInInspector]public Rigidbody2D myRigitbody;
     [HideInInspector]public Transform myTransform;
     
@@ -33,7 +30,17 @@ public class Entity : MonoBehaviour
             Vector2 v2 = new Vector2(
                 Input.GetAxis("Mouse X"),
                 Input.GetAxis("Mouse Y"));
-            myRigitbody.AddForce(v2 * force);
+            myRigitbody.AddForce(v2 * dragForce);
         }
+    }
+
+    public void Make()
+    {
+        Instantiate(this);
+    }
+    
+    public void Make(Vector3 pos, Quaternion quaternion)
+    {
+        Instantiate(this, pos, quaternion);
     }
 }

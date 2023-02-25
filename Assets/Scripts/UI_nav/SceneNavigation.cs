@@ -30,7 +30,6 @@ public class SceneNavigation : MonoBehaviour
 
     public void ChangeScene(int index)
     {
-
         SceneManager.LoadScene(index);
     }
 }

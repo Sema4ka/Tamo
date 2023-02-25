@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-
 
 public class Toy : Entity
 {
@@ -28,4 +23,5 @@ public class Toy : Entity
     {
         _pet.toys.Remove(this);
     }
+    
 }

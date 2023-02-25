@@ -106,3 +106,8 @@ MonoBehaviour:
   - {fileID: -1336851213, guid: daa3a5c3624615d48a0850fef5988dfb, type: 3}
   - {fileID: -2014350617, guid: daa3a5c3624615d48a0850fef5988dfb, type: 3}
   - {fileID: 1630993423, guid: daa3a5c3624615d48a0850fef5988dfb, type: 3}
+  eatingRadius: 0
+  eatingTime: 0
+  currentStage: 0
+  defaultTime: 2
+  gm: {fileID: 4774604492524904663, guid: 67fb48ae39271084284e0b5737fb1306, type: 3}
