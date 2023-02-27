@@ -14,7 +14,6 @@ public static class PetSaverSystem
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Create);
         Pet petComp = pet.GetComponent<Pet>();
-
         PetData data= new PetData(petComp);
         formatter.Serialize(stream, data);
         stream.Close();
@@ -26,11 +25,10 @@ public static class PetSaverSystem
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
-            
             PetData data = formatter.Deserialize(stream) as PetData;
             stream.Close();
             Pet petComp = pet.GetComponent<Pet>();
-            SceneManager.LoadScene(data.sceneIndex);
+            petComp.GetValues(data);
         }
         else
         {

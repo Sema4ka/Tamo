@@ -16,7 +16,7 @@ public class Toy : Entity
 
     public virtual void m_Action()
     {
-        _pet.myRigitbody.AddForce((_pet.myTransform.position - myTransform.position)*-_pet.jumpForce, ForceMode2D.Impulse);
+        _pet.myRigitbody.AddForce((_pet.myTransform.position - myTransform.position)*-_pet.petConsts.jumpForce, ForceMode2D.Impulse);
     }
 
     private void OnDestroy()

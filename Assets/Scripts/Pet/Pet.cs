@@ -1,23 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 
 public class Pet : Entity
 {
-    [SerializeField] public int jumpForce = 10;
-    
+    public string petName;
+    public PetScriptableObject petConsts;
     [SerializeField] public int saturation;
-    [SerializeField] readonly int _maxSaturation = 100;
-    [SerializeField] private float hungerTime = 300;
-
     [HideInInspector]public List<Toy> toys;
     public Toy activeToy;
     private float _actTime;
     private float _minDistance=100f;
-    public bool isFull { get { return saturation == _maxSaturation; } }
+    public bool isFull { get { return saturation == petConsts.maxSaturation; } }
 
-
+    
     protected override void Start()
     {
         base.Start();
@@ -31,7 +30,13 @@ public class Pet : Entity
         CatchToy();
     }
 
-
+    public void GetValues(PetData data)
+    {
+        petName = data.petName;
+        saturation = data.saturation;
+        Resources.Load(data.pathToScriptableObj);
+        SceneManager.LoadScene(data.sceneIndex);
+    }
     
     #region ToyLogic
     
@@ -69,7 +74,7 @@ public class Pet : Entity
 
     public void Eat()
     {
-        if(saturation + 5 <= _maxSaturation)
+        if(saturation + 5 <= petConsts.maxSaturation)
         {
             saturation += 5;
             transform.localScale += new Vector3(0.05f, 0.05f, 0);
@@ -89,7 +94,7 @@ public class Pet : Entity
     {
         while (true)
         {
-            yield return new WaitForSeconds(hungerTime);
+            yield return new WaitForSeconds(petConsts.hungerTime);
             GetHungry();
         }
     }

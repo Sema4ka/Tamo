@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private Camera _myCamera;
     public GameObject pet;
     private static bool isExist = false;
     
@@ -17,8 +16,6 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(this);
         isExist = true;
-        _myCamera = Camera.main;
-
     }
     
     private void Start()

@@ -136,5 +136,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5da3bbf176d3a214cb3a3860cb8a840f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 50
-  jumpForce: 10
+  dragForce: 50
+  myRigitbody: {fileID: 0}
+  myTransform: {fileID: 0}
+  petName: CoolCat
+  petConsts: {fileID: 11400000, guid: bcda364ed6e5e8f468c84db0670b8704, type: 2}
+  saturation: 0
+  toys: []
+  activeToy: {fileID: 0}
