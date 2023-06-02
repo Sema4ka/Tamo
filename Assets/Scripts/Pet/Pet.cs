@@ -10,65 +10,50 @@ public class Pet : Entity
     public string petName;
     public PetScriptableObject petConsts;
     [SerializeField] public int saturation;
-    [HideInInspector]public List<Toy> toys;
-    public Toy activeToy;
-    private float _actTime;
-    private float _minDistance=100f;
-    public bool isFull { get { return saturation == petConsts.maxSaturation; } }
+    protected static bool isExist = false;
 
+    public bool isFull { get { return saturation == petConsts.maxSaturation; } }
     
     protected override void Start()
     {
         base.Start();
         StartCoroutine(GetHungryCorutine());
-        StartCoroutine(ToyAwake());
-        DontDestroyOnLoad(this);
+        PetSaverSystem.PetLoad(gameObject);
     }
 
-    protected void Update()
+    protected virtual void Awake()
     {
-        CatchToy();
+        MakeUnique();
+
     }
 
-    public void GetValues(PetData data)
+
+    private void OnApplicationQuit()
     {
+        PetSaverSystem.SavePet(gameObject);
+    }
+
+    public void SetValues(PetData data)
+    {
+        isExist = true;
         petName = data.petName;
         saturation = data.saturation;
         Resources.Load(data.pathToScriptableObj);
-        SceneManager.LoadScene(data.sceneIndex);
-    }
-    
-    #region ToyLogic
-    
-    protected void CatchToy()
-    {
-        foreach (var toy in toys)
-        {
-            if (Vector2.Distance(transform.position, toy.myTransform.position) < _minDistance && toy != activeToy)
-            {
-                SetActiveToy(toy);
-            }
-            _minDistance = Vector2.Distance(transform.position, activeToy.myTransform.position);
-        }
+        if (SceneManager.GetActiveScene().buildIndex!= data.sceneIndex)
+            SceneManager.LoadScene(data.sceneIndex);
     }
 
-    
-    protected void SetActiveToy(Toy toy)
+    protected virtual void MakeUnique()
     {
-        activeToy = toy;
-        _actTime = toy.actInSeconds;
-    }
-    
-    
-    protected IEnumerator ToyAwake()
-    {
-        while (true)
+        if (isExist)
         {
-            yield return new WaitForSeconds(_actTime);
-            activeToy?.m_Action();
+            Destroy(gameObject);
+            return;
         }
+        DontDestroyOnLoad(this);
+        isExist = true;
     }
-    #endregion
+
 
     #region HungerLogic
 

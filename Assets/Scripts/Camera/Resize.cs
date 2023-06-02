@@ -1,11 +1,11 @@
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
-
+[ExecuteAlways]
 public class Resize : MonoBehaviour
 {
     private SpriteRenderer sr;
 
-    private void Start()
+    private void Update()
     {
         sr = GetComponent<SpriteRenderer>();
         float worldScreenHeight = Camera.main.orthographicSize * 2;

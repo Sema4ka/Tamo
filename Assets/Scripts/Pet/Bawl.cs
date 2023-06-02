@@ -19,7 +19,7 @@ public class Bawl : MonoBehaviour
     protected virtual void Start()
     {
         gm = FindObjectOfType<GameManager>();
-        _petObj = gm.pet;
+        _petObj = GameObject.FindGameObjectWithTag("Player");  
         _pet = _petObj.GetComponent<Pet>();
         _petRb = _petObj.GetComponent<Rigidbody2D>();
         _petTransform = _petObj.GetComponent<Transform>();

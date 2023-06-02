@@ -27,8 +27,7 @@ public static class PetSaverSystem
             FileStream stream = new FileStream(path, FileMode.Open);
             PetData data = formatter.Deserialize(stream) as PetData;
             stream.Close();
-            Pet petComp = pet.GetComponent<Pet>();
-            petComp.GetValues(data);
+            pet.GetComponent<Pet>().SetValues(data);
         }
         else
         {

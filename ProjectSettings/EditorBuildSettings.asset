@@ -14,4 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BathRoom.unity
     guid: 462a551b80b34b145852f39c49dab727
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/Bath.unity
+    guid: ecb0d17172422f64cb8a3831c4cd2386
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 3088a9081ebdb6f48b2e8ed840546516, type: 2}

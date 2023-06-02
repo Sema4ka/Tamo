@@ -17,13 +17,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
         isExist = true;
     }
-    
-    private void Start()
-    {
-        pet = PetSaverSystem.PetLoad(pet);
-        pet = Instantiate(pet);
-    }
-    
+
+    //private void Start()
+    //{
+    //    pet = PetSaverSystem.PetLoad(pet);
+    //    pet = Instantiate(pet);
+    //}
+
     private void OnApplicationQuit()
     {
         PetSaverSystem.SavePet(pet);
