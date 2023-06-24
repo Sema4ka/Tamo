@@ -51,12 +51,9 @@ public class WaterDrop : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag.Equals("Player"))
-        {
-            Rigidbody2D fallingObject = other.gameObject.GetComponent<Rigidbody2D>();
-            var speed = fallingObject.velocity;
-            velocity += speed.y / _resistance;
-            GetComponent<ParticleSystem>().Play();
-        }
+        Rigidbody2D fallingObject = other.gameObject.GetComponent<Rigidbody2D>();
+        var speed = fallingObject.velocity;
+        velocity += speed.y / _resistance;
+        GetComponent<ParticleSystem>().Play();
     }
 }

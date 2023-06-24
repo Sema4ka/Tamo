@@ -24,9 +24,7 @@ public class Pet : Entity
     protected virtual void Awake()
     {
         MakeUnique();
-
     }
-
 
     private void OnApplicationQuit()
     {

@@ -4,13 +4,13 @@ using UnityEngine.SceneManagement;
 public class SceneNavigation : MonoBehaviour
 {
 
-    public int scene = -1;
+    public int targetScene = -1;
     private int _unRigisteredScenes=1;
     private void OnMouseDown()
     {
-        if(scene!=-1)
+        if(targetScene!=-1)
         {
-            ChangeScene(scene);
+            ChangeScene(targetScene);
             return;
         } 
         int way = SceneManager.GetActiveScene().buildIndex;
@@ -38,7 +38,6 @@ public class SceneNavigation : MonoBehaviour
 
     public void ChangeScene(int index)
     {
-        print("pfuheprf dfyys");
         SceneManager.LoadScene(index);
     }
 }

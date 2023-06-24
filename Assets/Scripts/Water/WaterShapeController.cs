@@ -28,6 +28,7 @@ public class WaterShapeController : MonoBehaviour
         // Clean waterpoints 
         StartCoroutine(CreateWaves());
     }
+
     IEnumerator CreateWaves()
     {
         foreach (Transform child in wavePoints.transform)

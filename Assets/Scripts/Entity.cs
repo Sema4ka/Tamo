@@ -19,14 +19,4 @@ public class Entity : MonoBehaviour
             Input.GetAxis("Mouse Y"));
         myRigitbody.AddForce(v2 * dragForce);
     }
-
-    public void Make()
-    {
-        Instantiate(this);
-    }
-    
-    public void Make(Vector3 pos, Quaternion quaternion)
-    {
-        Instantiate(this, pos, quaternion);
-    }
 }
