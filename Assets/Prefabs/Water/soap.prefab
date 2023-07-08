@@ -123,9 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a81de0126700f947a8e5091ca63ac4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoreColliders:
-  - {fileID: 2099595265058219592, guid: 1329e25d158451c4982232503c390a48, type: 3}
-  - {fileID: 0}
+  ignoreColliders: []
   shelf: {fileID: 7601131237390689550, guid: e5a8232c4c813b84dbe27a3fae343606, type: 3}
   WhereToRoll: 2
 --- !u!60 &3122234436461478634

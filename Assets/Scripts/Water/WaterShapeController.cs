@@ -23,6 +23,7 @@ public class WaterShapeController : MonoBehaviour
     public float dampening = 0.03f;
     public float spread = 0.006f;
 
+
     void OnValidate()
     {
         // Clean waterpoints 
@@ -159,4 +160,6 @@ public class WaterShapeController : MonoBehaviour
             _springs[index].velocity += speed;
         }
     }
+
+  
 }

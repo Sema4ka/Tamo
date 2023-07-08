@@ -6,40 +6,37 @@ using UnityEngine.U2D;
 public class Soap : MonoBehaviour
 {
 
-    public List<Collider2D> ignoreColliders;
     public Collider2D shelf;
     public float WhereToRoll;
 
-    private bool isDraging;
-    private float _startHeight;
     private ParticleSystem _ps;
     private List<ParticleSystem.Particle> _enteredParticles = new List<ParticleSystem.Particle>();
     private Collider2D _enteredCollider;
 
 
-    private Vector3 point;
+    private Vector3 dragPoint;
+    private Vector2 nextRotation;
+    private Vector2 startRotation;
 
 
 
     private void Start()
     {
-        foreach(Collider2D col in ignoreColliders)
-        {
-            Physics2D.IgnoreCollision(col, GetComponent<Collider2D>(), true);
-        }
-        _startHeight = transform.position.y;
         _ps = GetComponent<ParticleSystem>();
     }
 
     private void OnMouseDrag()
     {
-        point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        point.z = 0;
+        dragPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        dragPoint.z = 0;
 
         Physics2D.IgnoreCollision(shelf, GetComponent<Collider2D>(), true);
-        GetComponent<Rigidbody2D>().MovePosition(point);
+        GetComponent<Rigidbody2D>().MovePosition(dragPoint);
+        startRotation= transform.position;
+        nextRotation = shelf.transform.position + new Vector3(0,WhereToRoll);
 
-        transform.rotation = Quaternion.FromToRotation(Vector2.up,new Vector2(transform.position.x, _startHeight + transform.position.y - WhereToRoll));
+        transform.rotation = Quaternion.FromToRotation(nextRotation, startRotation);
+
 
         if (Mathf.Abs(transform.rotation.z) > 0.75 && !_ps.isPlaying)
         {
@@ -47,17 +44,12 @@ public class Soap : MonoBehaviour
         }
         else if(Mathf.Abs(transform.rotation.z) < 0.75)
             _ps.Stop();
-        //print(Mathf.Abs(transform.rotation.z) > 0.75);
-        //print(_ps.isPlaying);
 
-        isDraging = true;
 
     }
 
     private void OnMouseUp()
     {
-        isDraging = false;
-        _startHeight = transform.position.y;
         Physics2D.IgnoreCollision(shelf, GetComponent<Collider2D>(), false);
         GetComponent<ParticleSystem>().Stop();
 
@@ -66,21 +58,29 @@ public class Soap : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.gray;
-        Gizmos.DrawSphere(point, 0.1f);
+        Gizmos.DrawSphere(dragPoint, 0.1f);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(new Vector2(transform.position.x, _startHeight + transform.position.y - WhereToRoll), 0.1f);
+        Gizmos.DrawSphere(nextRotation, 0.1f);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(startRotation, 0.1f);
+
     }
     private void OnParticleTrigger()
     {
         ParticleSystem.ColliderData _enteredColliderData;
+        Color c = new Color();
         _ps.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, _enteredParticles, out _enteredColliderData);
-        if(_enteredCollider==null)
-            _enteredCollider = _enteredColliderData.GetCollider(0, 0) as Collider2D;
-        print(_enteredCollider);
+        if (_enteredCollider == null && _enteredParticles.Count != 0)
+        {
+            _enteredCollider = _enteredColliderData.GetCollider(0, 0).gameObject.GetComponent<Collider2D>();
+        }
         foreach (ParticleSystem.Particle p in _enteredParticles)
         {
-            _enteredCollider.GetComponent<SpriteShapeRenderer>().color = new Color(p.startColor.r*0.05f, p.startColor.g * 0.05f, p.startColor.b * 0.05f, 150);
+            c = _enteredCollider.GetComponent<SpriteShapeRenderer>().color;
+
+            _enteredCollider.GetComponent<SpriteShapeRenderer>().color = Color.Lerp(c, p.startColor, 0.05f);
         }
     }
 }
