@@ -1,24 +1,42 @@
 using UnityEngine;
-using UnityEngine.Audio;
+using UnityEngine.EventSystems;
+
 public class SettingsMenu : MonoBehaviour
 {
     public AudioSource Source;
-    public GameObject panel;
+    private bool isOpen;
     private void Start()
     {
         DontDestroyOnLoad(Source);
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(transform.parent);
     }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && isOpen && !EventSystem.current.IsPointerOverGameObject())
+        {
+            CloseMenu();
+        }
+    }
+
     public void SetMusic(bool check)
     {
         if (check)
             Source.Play();
         else
             Source.Stop();
-        print(panel.GetType());
     }
 
     public void OpenMenu()
     {
+        isOpen = true;
+        Time.timeScale = 0.2f;
+    }
+
+    public void CloseMenu()
+    {
+        isOpen = false;
+        Time.timeScale = 1f;
+        GetComponent<Animator>().SetTrigger("Close");
     }
 }
