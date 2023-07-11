@@ -15,8 +15,7 @@ public class Soap : MonoBehaviour
 
 
     private Vector3 dragPoint;
-    private Vector2 nextRotation;
-    private Vector2 startRotation;
+
 
 
 
@@ -31,12 +30,9 @@ public class Soap : MonoBehaviour
         dragPoint.z = 0;
 
         Physics2D.IgnoreCollision(shelf, GetComponent<Collider2D>(), true);
-        GetComponent<Rigidbody2D>().MovePosition(dragPoint);
-        startRotation= transform.position;
-        nextRotation = shelf.transform.position + new Vector3(0,WhereToRoll);
-
-        transform.rotation = Quaternion.FromToRotation(nextRotation, startRotation);
-
+        //GetComponent<Rigidbody2D>().MovePosition(dragPoint);
+        transform.position = dragPoint;
+        transform.rotation = Quaternion.FromToRotation(shelf.transform.position + new Vector3(0, WhereToRoll), transform.position);
 
         if (Mathf.Abs(transform.rotation.z) > 0.75 && !_ps.isPlaying)
         {
@@ -44,7 +40,6 @@ public class Soap : MonoBehaviour
         }
         else if(Mathf.Abs(transform.rotation.z) < 0.75)
             _ps.Stop();
-
 
     }
 
@@ -59,12 +54,6 @@ public class Soap : MonoBehaviour
     {
         Gizmos.color = Color.gray;
         Gizmos.DrawSphere(dragPoint, 0.1f);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(nextRotation, 0.1f);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(startRotation, 0.1f);
 
     }
     private void OnParticleTrigger()

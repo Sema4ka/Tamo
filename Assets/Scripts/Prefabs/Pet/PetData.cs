@@ -15,4 +15,6 @@ public class PetData
         petName = pet.petName;
         pathToScriptableObj = pet.petConsts.name;
     }
+
+    public PetData() { }
 }

@@ -12,14 +12,14 @@ public class SceneNavigation : MonoBehaviour
         {
             ChangeScene(targetScene);
             return;
-        } 
+        }
         int way = SceneManager.GetActiveScene().buildIndex;
         if (gameObject.transform.position.x > 0)
         {
             way += 1;
             if (SceneManager.sceneCountInBuildSettings - _unRigisteredScenes == way)
             {
-                ChangeScene(0);
+                ChangeScene(1);
                 return;
             }
         }
@@ -27,7 +27,7 @@ public class SceneNavigation : MonoBehaviour
         else
         {
             way -= 1;
-            if (way < 0)
+            if (way < 1)
             {
                 ChangeScene(SceneManager.sceneCountInBuildSettings - 1 - _unRigisteredScenes);
                 return;

@@ -5,6 +5,7 @@ public class SettingsMenu : MonoBehaviour
 {
     public AudioSource Source;
     private bool isOpen;
+
     private void Start()
     {
         DontDestroyOnLoad(Source);

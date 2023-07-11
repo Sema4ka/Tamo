@@ -19,10 +19,10 @@ public class ToyManager : MonoBehaviour
     {
         foreach (var toy in toys)
         {
-            if (Vector2.Distance(transform.position, toy.myTransform.position) < _minDistance && toy != activeToy)
+            if (Vector2.Distance(transform.position, toy.transform.position) < _minDistance && toy != activeToy)
             {
                 SetActiveToy(toy);
-                _minDistance = Vector2.Distance(transform.position, activeToy.myTransform.position);
+                _minDistance = Vector2.Distance(transform.position, activeToy.transform.position);
             }
         }
 

@@ -1,7 +1,5 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,18 +19,22 @@ public static class PetSaverSystem
 
     public static GameObject PetLoad(GameObject pet)
     {
+        PetData data = new PetData();
         if (File.Exists(path) && File.ReadAllLines(path).Length!=0)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
-            PetData data = formatter.Deserialize(stream) as PetData;
+            data = formatter.Deserialize(stream) as PetData;
             stream.Close();
             pet.GetComponent<Pet>().SetValues(data);
         }
         else
         {
             Debug.LogError("No saved File:" + path);
+            data.sceneIndex = 1;
         }
+        if (SceneManager.GetActiveScene().buildIndex != data.sceneIndex)
+            SceneManager.LoadScene(data.sceneIndex);
         return pet;
 
     }

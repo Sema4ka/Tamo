@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 
 public class Pet : Entity
@@ -14,7 +11,7 @@ public class Pet : Entity
 
     public bool isFull { get { return saturation == petConsts.maxSaturation; } }
     
-    protected override void Start()
+    protected  override void Start()
     {
         base.Start();
         StartCoroutine(GetHungryCorutine());
@@ -23,7 +20,7 @@ public class Pet : Entity
 
     protected virtual void Awake()
     {
-        MakeUnique();
+        DontDestroyOnLoad(this);
     }
 
     private void OnApplicationQuit()
@@ -37,20 +34,10 @@ public class Pet : Entity
         petName = data.petName;
         saturation = data.saturation;
         Resources.Load(data.pathToScriptableObj);
-        if (SceneManager.GetActiveScene().buildIndex!= data.sceneIndex)
-            SceneManager.LoadScene(data.sceneIndex);
+
     }
 
-    protected virtual void MakeUnique()
-    {
-        if (isExist)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(this);
-        isExist = true;
-    }
+
 
 
     #region HungerLogic

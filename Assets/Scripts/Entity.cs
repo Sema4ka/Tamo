@@ -4,12 +4,10 @@ using UnityEngine.Serialization;
 public class Entity : MonoBehaviour
 {
     [SerializeField] protected int dragForce = 50;
-    [HideInInspector]public Rigidbody2D myRigitbody;
-    [HideInInspector]public Transform myTransform;
-    
+    [HideInInspector]public Rigidbody2D myRigidbody;
+
      protected virtual void Start() {
-        myRigitbody =  GetComponent<Rigidbody2D>();
-        myTransform = GetComponent<Transform>();
+        myRigidbody =  GetComponent<Rigidbody2D>();
      }
     
     private void OnMouseDrag()
@@ -17,6 +15,7 @@ public class Entity : MonoBehaviour
         Vector2 v2 = new Vector2(
             Input.GetAxis("Mouse X"),
             Input.GetAxis("Mouse Y"));
-        myRigitbody.AddForce(v2 * dragForce);
+        myRigidbody.AddForce(v2 * dragForce);
     }
 }
+ 
